@@ -833,8 +833,6 @@ int heap_mgr_allocate(HeapManager* hmgr, ShadowMemory* buffer, size_t size) {
 
   if (do_action()) {
     ptr = malloc(size);
-    if(NULL != getenv("DEBUG_ALLOC"))
-      fprintf(stderr, "printf(\"DEBUG: %p\\n\");\n", ptr);
     valid = true;
     END_STMT;
   }
@@ -929,9 +927,6 @@ retry:
     goto retry;
   }
   STMT(")");
-
-  if(NULL != getenv("DEBUG_ALLOC"))
-    fprintf(stderr, "printf(\"p[%d] = %%p\\n\", p[%d]);\n", hmgr->smem.front, hmgr->smem.front);
 
   int index = heap_mgr_allocate(hmgr, buffer, size);
 
