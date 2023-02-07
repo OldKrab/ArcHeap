@@ -1053,6 +1053,8 @@ void fuzz_vuln(HeapManager* hmgr,
         if (do_action_heap(h)) {
           if (first) first = false;
           *(uintptr_t*)((uintptr_t)h + off) = value;
+          check_buffer_modify(buffer, true);
+          check_container_modify(hmgr, true);
         }
         END_STMT;
       }
@@ -1076,6 +1078,8 @@ void fuzz_vuln(HeapManager* hmgr,
         STMT("*(char*)(p[%d] + %ld) = %d", index, hmgr->usable_size[index], value);
         *(uint8_t*)((uintptr_t)h + hmgr->usable_size[index]) = value;
         END_STMT;
+        check_buffer_modify(buffer, true);
+        check_container_modify(hmgr, true);
       }
     }
     break;
@@ -1097,6 +1101,8 @@ void fuzz_vuln(HeapManager* hmgr,
         *(uint8_t*)((uintptr_t)h + hmgr->usable_size[index]) = 0;
 
         END_STMT;
+        check_buffer_modify(buffer, true);
+        check_container_modify(hmgr, true);
       }
     }
     break;
@@ -1136,6 +1142,8 @@ void fuzz_vuln(HeapManager* hmgr,
         if (do_action_heap(h)) {
           if (first) first = false;
           *((uintptr_t*)h + i) = value;
+          check_buffer_modify(buffer, true);
+          check_container_modify(hmgr, true);
         }
         END_STMT;
       }
